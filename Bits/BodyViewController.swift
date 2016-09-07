@@ -44,8 +44,9 @@ class BodyViewController: GenericVC, UITextViewDelegate {
         navigationItem.rightBarButtonItem = shareButton
         
         applyPreferredFonts()
-        registerForContentSizeNotification()
         
+        registerForApplicationStateTransitionNotifications()
+        registerForContentSizeNotification()
         registerForKeyboardNotifications()
     }
     
@@ -129,6 +130,11 @@ class BodyViewController: GenericVC, UITextViewDelegate {
     
     func keyboardWillHide(notification: NSNotification) {
         bottomLayoutConstraint.constant = 0.0
+    }
+    
+    // MARK: - APPLICATION STATE TRANSITIONS
+    func registerForApplicationStateTransitionNotifications() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshInterface), name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
     
 }
